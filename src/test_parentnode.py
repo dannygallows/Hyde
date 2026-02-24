@@ -30,5 +30,22 @@ class TestParentNode(unittest.TestCase):
         parent_node = ParentNode("div", [child_node, child_node2])
         self.assertEqual(parent_node.to_html(), "<div><span>child</span><span>child</span></div>")
 
+    def test_to_html_no_nested_children(self):
+        parent_node = ParentNode("div", [])
+        parent_node_other = ParentNode("div", [parent_node])
+        with self.assertRaises(ValueError):
+            parent_node_other.to_html()
+
+    def test_div_soup(self):
+        node = LeafNode("b", "div")
+        
+        for _ in range(500):
+            node = ParentNode("div", [node])
+
+        html = node.to_html()
+
+        self.assertTrue(html.startswith("<div>" * 500))
+        self.assertTrue(html.endswith("</div>" * 500))
+
 if __name__ == "__main__":
     unittest.main()
