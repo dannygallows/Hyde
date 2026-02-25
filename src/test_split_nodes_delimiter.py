@@ -58,3 +58,16 @@ class TestSplitNodesDelimiter(unittest.TestCase):
         node_other = TextNode("This is text with a _italic block_ word", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node, node_other], "_", TextType.ITALIC)
         self.assertEqual(new_nodes, test_input)
+
+    def test_delim_bold_and_italic(self):
+        node = TextNode("**bold** and _italic_", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        new_nodes = split_nodes_delimiter(new_nodes, "_", TextType.ITALIC)
+        self.assertListEqual(
+            [
+                TextNode("bold", TextType.BOLD),
+                TextNode(" and ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+            ],
+            new_nodes,
+        )
