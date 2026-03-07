@@ -23,10 +23,19 @@ print('hello world')
 - This is a quote"""
         )
         self.assertEqual(test, BlockType.UNORDERED_LIST)
-    def test_block_to_blocktype_quote(self):
+    def test_block_to_blocktype_ordered(self):
         test = block_to_block_type(
 """1. This is a quote
 2. This is a quote
 3. something else"""
         )
         self.assertEqual(test, BlockType.ORDERED_LIST)
+    def test_block_to_blocktype_broken_ordered(self):
+        test = block_to_block_type(
+"""1. This is a quote
+3. This is a quote
+2. something else"""
+        )
+        self.assertEqual(test, BlockType.PARAGRAPH)
+    def test_block_to_blocktype_paragraph(self):
+        self.assertEqual(block_to_block_type("test"), BlockType.PARAGRAPH)
