@@ -5,18 +5,13 @@ from extract_markdown import extract_title
 
 
 def main():
-    copy_static_to_public()
-    from_path = "content/index.md"
-    template_path = "template.html"
-    dest_path = "public/index.html"
-    generate_page(from_path, template_path, dest_path)
+    if os.path.exists("./public"):
+        shutil.rmtree("./public")
+    copy_static_to_public("./static", "./public")
+    generate_page("content/index.md", "template.html", "public/index.html")
 
 
-def copy_static_to_public(src="./static", dst = "./public"):
-    first_run = True
-    if os.path.exists(dst) and first_run:
-        shutil.rmtree(dst)
-        first_run = False
+def copy_static_to_public(src, dst):
     os.mkdir(dst)
     static_files = os.listdir(src)
     for file in static_files:
