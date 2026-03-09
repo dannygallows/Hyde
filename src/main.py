@@ -8,7 +8,8 @@ def main():
     if os.path.exists("./public"):
         shutil.rmtree("./public")
     copy_static_to_public("./static", "./public")
-    generate_page("content/index.md", "template.html", "public/index.html")
+    #generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages_recursive("content", "template.html", "./public")
 
 
 def copy_static_to_public(src, dst):
@@ -36,6 +37,28 @@ def generate_page(from_path, template_path, dest_path):
     with open(dest_path, "w") as f:
         f.write(html_page)
 
+
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    os.makedirs(dest_dir_path, exist_ok=True)
+    content_files = os.listdir(dir_path_content)
+    for file in content_files:
+        from_path = os.path.join(dir_path_content, file)
+        dest_path = os.path.join(dest_dir_path, file)
+        if os.path.isfile(from_path):
+            if from_path.endswith(".md"):
+                dest_path = dest_path.replace(".md", ".html")
+                with open(from_path) as f:
+                    markdown = f.read()
+                with open(template_path) as f:
+                    template = f.read()
+                md_to_html = markdown_to_html_node(markdown).to_html()
+                page_title = extract_title(markdown)
+                html_page = template.replace("{{ Title }}", page_title).replace("{{ Content }}", md_to_html)
+                with open(dest_path, "w") as f:
+                    f.write(html_page)
+        else:
+            generate_pages_recursive(from_path, template_path, dest_path)
 
 
 if __name__ == "__main__":
