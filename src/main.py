@@ -13,7 +13,6 @@ def main():
     else:
         basepath = "/"
     copy_static_to_docs("./static", "./docs")
-    #generate_page("content/index.md", "template.html", "docs/index.html")
     generate_pages_recursive("content", "template.html", "./docs", basepath)
 
 
