@@ -1,18 +1,432 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tolkien Fan Club</title>
-    <link href="/Hyde/index.css" rel="stylesheet" />
-  </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Handzuš</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0c0c0c;
+      --bg2:       #111111;
+      --border:    #1e1e1e;
+      --dim:       #2a2a2a;
+      --muted:     #555;
+      --text:      #c9c9c9;
+      --bright:    #e8e8e8;
+      --accent:    #39ff6e;
+      --accent2:   #00bfff;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
 
-  <body>
-    <article><div><h1>Tolkien Fan Club</h1><p><img src="/Hyde/images/tolkien.png" alt="JRR Tolkien sitting"></img></p><p>Here's the deal, <b>I like Tolkien</b>.</p><blockquote>"I am in fact a Hobbit in all but size."
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
--- J.R.R. Tolkien</blockquote><h2>Blog posts</h2><ul><li><a href="/Hyde/blog/glorfindel">Why Glorfindel is More Impressive than Legolas</a></li><li><a href="/Hyde/blog/tom">Why Tom Bombadil Was a Mistake</a></li><li><a href="/Hyde/blog/majesty">The Unparalleled Majesty of "The Lord of the Rings"</a></li></ul><h2>Reasons I like Tolkien</h2><ul><li>You can spend years studying the legendarium and still not understand its depths</li><li>It can be enjoyed by children and adults alike</li><li>Disney <i>didn't ruin it</i> (okay, but Amazon might have)</li><li>It created an entirely new genre of fantasy</li></ul><h2>My favorite characters (in order)</h2><ol><li>Gandalf</li><li>Bilbo</li><li>Sam</li><li>Glorfindel</li><li>Galadriel</li><li>Elrond</li><li>Thorin</li><li>Sauron</li><li>Aragorn</li></ol><p>Here's what <code>elflang</code> looks like (the perfect coding language):</p><pre><code>func main(){
-    fmt.Println("Aiya, Ambar!")
-}
-</code></pre><p>Want to get in touch? <a href="/Hyde/contact">Contact me here</a>.</p><p>This site was generated with a custom-built <a href="https://www.boot.dev/courses/build-static-site-generator-python">static site generator</a> from the course on <a href="https://www.boot.dev">Boot.dev</a>.</p></div></article>
-  </body>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px; left: -200px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(57,255,110,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 1em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      animation: blink 1.1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+
+    /* Header */
+    header {
+      padding: 80px 0 52px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prompt-line {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+      animation: fadeUp 0.4s ease 0.1s forwards;
+      opacity: 0;
+    }
+
+    .prompt-line span { color: var(--accent); }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      color: var(--bright);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      animation: fadeUp 0.5s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .about-text {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      animation: fadeUp 0.5s ease 0.35s forwards;
+      opacity: 0;
+    }
+
+    .tag {
+      color: var(--accent2);
+      font-size: 11px;
+      background: rgba(0,191,255,0.07);
+      border: 1px solid rgba(0,191,255,0.15);
+      border-radius: 2px;
+      padding: 1px 6px;
+      margin: 0 2px;
+    }
+
+    /* Sections */
+    section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Experience */
+    .job {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .job:last-child { border-bottom: none; }
+
+    .job-title {
+      color: var(--bright);
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .job-company {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .job-year {
+      color: var(--dim);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-group-name {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .skill-tag {
+      font-size: 11px;
+      color: var(--text);
+      background: var(--bg2);
+      border: 1px solid var(--dim);
+      border-radius: 2px;
+      padding: 3px 8px;
+      transition: border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+
+    .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Projects */
+    .project {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      padding: 18px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+
+    .project:hover { border-color: var(--accent); transform: translateX(4px); }
+
+    .project-name {
+      color: var(--bright);
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .project-desc { color: var(--text); font-size: 12px; line-height: 1.7; }
+
+    .project-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+    .project-tech span {
+      font-size: 10px;
+      color: var(--accent2);
+      border: 1px solid rgba(0,191,255,0.2);
+      border-radius: 2px;
+      padding: 2px 6px;
+    }
+
+    .project-arrow {
+      color: var(--muted);
+      font-size: 16px;
+      padding-top: 2px;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .project:hover .project-arrow { color: var(--accent); transform: translateX(3px); }
+
+    /* Contact */
+    .contact-links { display: flex; flex-direction: column; gap: 14px; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+      width: fit-content;
+    }
+
+    .contact-link:hover { color: var(--accent); }
+    .contact-link:hover .contact-icon { border-color: var(--accent); color: var(--accent); }
+
+    .contact-icon {
+      width: 32px; height: 32px;
+      border: 1px solid var(--dim);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer {
+      padding: 28px 0 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-left { font-size: 11px; color: var(--muted); }
+    .footer-left span { color: var(--accent); }
+    .footer-right { font-size: 11px; color: var(--dim); }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+    ::selection { background: rgba(57,255,110,0.2); color: var(--bright); }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <p class="prompt-line"><span>daniel@brno</span>:~$ whoami</p>
+    <h1>Daniel Handzuš<span class="cursor"></span></h1>
+    <p class="about-text">
+      Brno-based engineer into <span class="tag">Linux</span>, <span class="tag">Python</span>, and automation.
+      Also: vim, the Sopranos, history, books, true crime.
+    </p>
+  </header>
+
+  <section class="reveal" style="animation-delay: 0.1s">
+    <div class="section-label">experience</div>
+
+    <div class="job">
+      <div>
+        <div class="job-title">Software Support Engineer</div>
+        <div class="job-company">LISEC Technické Centrum · Brno</div>
+      </div>
+      <div class="job-year">2025 — present</div>
+    </div>
+
+    <div class="job">
+      <div>
+        <div class="job-title">Technical Support</div>
+        <div class="job-company">MANN+HUMMEL</div>
+      </div>
+      <div class="job-year">2024 — 2025</div>
+    </div>
+
+    <div class="job">
+      <div>
+        <div class="job-title">System Administrator</div>
+        <div class="job-company">AT&T</div>
+      </div>
+      <div class="job-year">2019 — 2020</div>
+    </div>
+  </section>
+
+  <section class="reveal" style="animation-delay: 0.2s">
+    <div class="section-label">skills</div>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-name">languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Bash</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">C</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">systems</div>
+        <div class="skill-tags">
+          <span class="skill-tag">RHEL</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Unix</span>
+          <span class="skill-tag">Windows</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-name">tooling</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">vim</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">JIRA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal" style="animation-delay: 0.3s">
+    <div class="section-label">projects</div>
+    <a class="project" href="https://github.com/dannygallows/Hyde" target="_blank" rel="noopener">
+      <div>
+        <div class="project-name">Hyde</div>
+        <div class="project-desc">
+          Zero-dependency static site generator in Python. Walks a Markdown directory,
+          parses it, renders HTML via a custom template. Unit tested. This site is built with it.
+        </div>
+        <div class="project-tech">
+          <span>Python</span>
+          <span>unittest</span>
+          <span>GitHub Pages</span>
+        </div>
+      </div>
+      <div class="project-arrow">→</div>
+    </a>
+  </section>
+
+  <section class="reveal" style="animation-delay: 0.4s">
+    <div class="section-label">contact</div>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:danielhandzus98@gmail.com">
+        <div class="contact-icon">@</div>
+        danielhandzus98@gmail.com
+      </a>
+      <a class="contact-link" href="https://github.com/dannygallows" target="_blank" rel="noopener">
+        <div class="contact-icon">gh</div>
+        github.com/dannygallows
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/daniel-handzus/" target="_blank" rel="noopener">
+        <div class="contact-icon">in</div>
+        linkedin.com/in/daniel-handzus
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">built with <span>Hyde</span></div>
+    <div class="footer-right">Brno, CZ</div>
+  </footer>
+
+</div>
+</body>
 </html>
